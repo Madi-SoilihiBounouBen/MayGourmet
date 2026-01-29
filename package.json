@@ -1,0 +1,26 @@
+{
+  "name": "maygourmet",
+  "version": "1.0.0",
+  "description": "Je crée mon serveur Node, pour le site de restaurant MayGourmet",
+  "keywords": [
+    "\"Serveur\""
+  ],
+  "homepage": "https://github.com/Madi-SoilihiBounouBen/MayGourmet#readme",
+  "bugs": {
+    "url": "https://github.com/Madi-SoilihiBounouBen/MayGourmet/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Madi-SoilihiBounouBen/MayGourmet.git"
+  },
+  "license": "ISC",
+  "author": "Madi-Soilihi Bounou Ben",
+  "type": "commonjs",
+  "main": "serveur.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
