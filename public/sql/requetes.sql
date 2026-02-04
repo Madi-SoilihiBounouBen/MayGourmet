@@ -56,3 +56,66 @@ INSERT INTO equipe (nom, prenom, mail, telephone, poste, adress_postale, present
 
 -- Insertion d’une serveuse
 INSERT INTO equipe (nom, prenom, mail, telephone, poste, adress_postale, presentation, date_recrutement) VALUES("SOULEY", "Hana", "hana.souley@email.com","0692234567", "Serveuse", "18 rue du Lagon, 97600 Koungou", "Serveuse accueillante et attentive, Hana assure le service en salle, le conseil aux clients et contribue à une ambiance chaleureuse au sein du restaurant.", "2024-10-01");
+
+
+
+-- 1. Créer la table plat
+CREATE TABLE plat (
+    id_plat INT AUTO_INCREMENT PRIMARY KEY,
+    nom_plat VARCHAR(100) NOT NULL,
+    prix DECIMAL(10, 2),
+    categorie VARCHAR(50),
+    date_creation DATE
+);
+
+-- 2. Créer la table fournisseur
+CREATE TABLE fournisseur (
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    nom_fournisseur VARCHAR(100) NOT NULL,
+    adresse VARCHAR(200),
+    telephone VARCHAR(20),
+    email VARCHAR(100),
+    date_partenariat DATE
+);
+
+-- 3. Lister les noms des tables existantes dans la base de données
+SHOW TABLES;
+
+-- 4. Ajouter 4 fournisseurs au minimum dans la table fournisseur
+INSERT INTO fournisseur (nom_fournisseur, adresse, telephone, email, date_partenariat) VALUES("Fournisseur Alimentaire Mayotte", "Kaweni, Mamoudzou", "0269612345", "contact@fam-mayotte.com", "2007-05-03");
+INSERT INTO fournisseur (nom_fournisseur, adresse, telephone, email, date_partenariat) VALUES("TETRAMA", "129 rue mazava 97600 Kaweni", "0269601234", "tetramagroupe@gmail.com", "2015-07-04");
+INSERT INTO fournisseur (nom_fournisseur, adresse, telephone, email, date_partenariat) VALUES("Jambo", "Majicavo Lamir", "0269624567", "commande@pfoi.fr", "2019-09-10");
+INSERT INTO fournisseur (nom_fournisseur, adresse, telephone, email, date_partenariat) VALUES("BDM", "Mamoudzou Centre", "0269617890", "vente@BD-mayotte.com", "2010-12-12");
+
+-- 5. Afficher tous les fournisseurs enregistrés dans la table fournisseur
+SELECT * FROM fournisseur;
+
+-- 6. Modifier le nom d'un fournisseur
+UPDATE fournisseur SET nom_fournisseur = "Mayana Gourmande" WHERE id = 1;
+
+-- 7. Supprimer un fournisseur de votre choix
+DELETE FROM fournisseur WHERE id_fournisseur = 4;
+
+-- 8. Ajouter 5 plats dans la table plat
+INSERT INTO plat (nom_plat, prix, categorie, date_creation) VALUES("Mataba", 12.50, "Plat traditionnel", "2026-02-01");
+INSERT INTO plat (nom_plat, prix, categorie, date_creation) VALUES("Poulet coco", 15.00, "Plat principal", "2026-01-29");
+INSERT INTO plat (nom_plat, prix, categorie, date_creation) VALUES("Brochettes de boeuf", 10.00, "Grillades", "2026-01-30");
+INSERT INTO plat (nom_plat, prix, categorie, date_creation) VALUES("Riz au lait de coco", 6.50, "Dessert", "26-02-03");
+INSERT INTO plat (nom_plat, prix, categorie, date_creation) VALUES("Salade de papaye verte", 8.00, "Entrée", "26-02-02");
+
+-- 9. Lister tous les plats enregistrés dans la table plat
+SELECT * FROM plat;
+
+-- 10. Modifier le nom d'un plat au choix
+UPDATE plat SET nom_plat = "Poulet au curry et lait de coco" WHERE id_plat = 2;
+
+-- 11. Supprimer un plat au choix
+DELETE FROM plat WHERE id_plat = 5;
+
+
+
+-- Vérification finale des fournisseurs restants
+SELECT * FROM fournisseur;
+
+-- Vérification finale des plats restants
+SELECT * FROM plat;
