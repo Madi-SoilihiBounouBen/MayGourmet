@@ -69,14 +69,44 @@ CREATE TABLE plat (
 );
 
 -- 2. Créer la table fournisseur
-CREATE TABLE fournisseur (
+CREATE TABLE fournisseur IF NOT EXISTS(
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     nom_fournisseur VARCHAR(100) NOT NULL,
     adresse VARCHAR(200),
     telephone VARCHAR(20),
     email VARCHAR(100),
     date_partenariat DATE
+    -- J'associe la table fournisseur à la table produit en utilisant l'ID_PRODUIT
+    --L'ID_PRODUIT provient de la table produit
+    id_produit INT NOT NULL
+    FOREIGN KEY (id_produit) REFERENCES produit(id_produit)
 );
+
+CREATE TABLE produit(
+    id_produit INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    nom VARCHAR(100) NOT NULL,
+    presentation VARCHAR (155),
+    prix INT NOT NULL,
+    origin VARCHAR(30) NOT NULL,
+    categorie VARCHAR(30),
+    disponibilite BOOLEAN DEFAULT False,
+    type_culture VARCHAR(30),
+    id_fournisseur INT NOT NULL,
+    FOREIGN KEY (id_fournisseur) REFERENCES fournisseur(id_fournisseur)
+);
+
+-- 1. Supprimer la clé étrangère existante dans produit
+ALTER TABLE produit
+DROP FOREIGN KEY (id_fournisseur);  -- Remplacez par le nom réel
+
+-- 2. Ajouter id_produit dans fournisseur avec sa clé étrangère
+ALTER TABLE fournisseur
+ADD COLUMN id_produit INT,
+ADD FOREIGN KEY (id_produit) REFERENCES produit(id_produit);
+
+-- 3. Recréer la clé étrangère dans produit
+ALTER TABLE produit
+ADD FOREIGN KEY (id_fournisseur) REFERENCES fournisseur(id);
 
 -- 3. Lister les noms des tables existantes dans la base de données
 SHOW TABLES;
@@ -94,7 +124,7 @@ SELECT * FROM fournisseur;
 UPDATE fournisseur SET nom_fournisseur = "Mayana Gourmande" WHERE id = 1;
 
 -- 7. Supprimer un fournisseur de votre choix
-DELETE FROM fournisseur WHERE id_fournisseur = 4;
+DELETE FROM fournisseur WHERE id = 4;
 
 -- 8. Ajouter 5 plats dans la table plat
 INSERT INTO plat (nom_plat, prix, categorie, date_creation) VALUES("Mataba", 12.50, "Plat traditionnel", "2026-02-01");
