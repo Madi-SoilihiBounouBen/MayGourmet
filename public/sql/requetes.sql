@@ -68,18 +68,23 @@ CREATE TABLE plat (
     date_creation DATE
 );
 
+-- Desactiver la vérification des clés étrangères
+SET FOREIGN_KET_CHECKS=0;
+
+-- Supprimer la table fournisseur
+drop table fournisseur;
+
+-- réactiver la vérification des clés étrangères
+SET FOREIGN_KET_CHECKS=1;
+
 -- 2. Créer la table fournisseur
 CREATE TABLE fournisseur IF NOT EXISTS(
-    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    id_fournisseur INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     nom_fournisseur VARCHAR(100) NOT NULL,
     adresse VARCHAR(200),
     telephone VARCHAR(20),
     email VARCHAR(100),
     date_partenariat DATE
-    -- J'associe la table fournisseur à la table produit en utilisant l'ID_PRODUIT
-    --L'ID_PRODUIT provient de la table produit
-    id_produit INT NOT NULL
-    FOREIGN KEY (id_produit) REFERENCES produit(id_produit)
 );
 
 CREATE TABLE produit(
@@ -108,6 +113,7 @@ ADD FOREIGN KEY (id_produit) REFERENCES produit(id_produit);
 ALTER TABLE produit
 ADD FOREIGN KEY (id_fournisseur) REFERENCES fournisseur(id);
 
+
 -- 3. Lister les noms des tables existantes dans la base de données
 SHOW TABLES;
 
@@ -116,6 +122,11 @@ INSERT INTO fournisseur (nom_fournisseur, adresse, telephone, email, date_parten
 INSERT INTO fournisseur (nom_fournisseur, adresse, telephone, email, date_partenariat) VALUES("TETRAMA", "129 rue mazava 97600 Kaweni", "0269601234", "tetramagroupe@gmail.com", "2015-07-04");
 INSERT INTO fournisseur (nom_fournisseur, adresse, telephone, email, date_partenariat) VALUES("Jambo", "Majicavo Lamir", "0269624567", "commande@pfoi.fr", "2019-09-10");
 INSERT INTO fournisseur (nom_fournisseur, adresse, telephone, email, date_partenariat) VALUES("BDM", "Mamoudzou Centre", "0269617890", "vente@BD-mayotte.com", "2010-12-12");
+INSERT INTO fournisseur (nom_fournisseur, adresse, telephone, email, date_partenariat) VALUES("Kanga Passam", "4 Rue Mhogoni 97605 Passamainty", "0269677845", "contact@kanga.yt", "2010-12-12");
+
+INSERT INTO fournisseur (nom_fournisseur, adresse, telephone, email, date_partenariat) VALUES('Metro Cash & Carry', '12 Avenue des Approvisionnements, 97615 Logoni', '01 45 67 89 00', 'contact@metro.fr', '2023-01-15');
+INSERT INTO fournisseur (nom_fournisseur, adresse, telephone, email, date_partenariat) VALUES("Mayana fruit", "28 Rue de la Logistique, 97606 Dzoumogué", "04 78 23 45 67", "commercial@mayanafruit.fr", "2023-03-20");
+INSERT INTO fournisseur (nom_fournisseur, adresse, telephone, email, date_partenariat) VALUES("Transgourmet", "45 rue Appondja 97630 Acoua", "04 91 55 78 90", "info@transgourmet.fr", "2022-11-10");
 
 -- 5. Afficher tous les fournisseurs enregistrés dans la table fournisseur
 SELECT * FROM fournisseur;
