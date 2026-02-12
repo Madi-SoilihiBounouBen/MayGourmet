@@ -1,3 +1,45 @@
 body {
     background-color: blueviolet;
 }
+
+.card {
+  /* Style carte Pokémon */
+  width: 300px;
+  min-height: 420px;
+  border-radius: 18px;
+  box-shadow: 0 8px 24px 0 rgba(0,0,0,0.35), 0 1.5px 0 0 #f6d23b inset;
+  background: linear-gradient(135deg, #f6d23b 0%, #e3350d 100%);
+  border: 4px solid #2a75bb;
+  margin: 24px auto;
+  padding: 18px 16px 16px 16px;
+  position: relative;
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  color: #222;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Au survol de la souris, ajouter une ombre plus profonde */
+.card:hover {
+  box-shadow: 0 12px 32px 0 rgba(0,0,0,0.45), 0 2px 0 0 #f6d23b inset;
+  background: linear-gradient(135deg, #f6d23b 0%, #3b4cca 100%);
+  color: #222;
+  transform: scale(1.04) rotate(-1deg);
+  transition: 0.4s;
+}
+
+/* Ajoutez du rembourrage à l'intérieur du conteneur de cartes */
+.container {
+  padding: 2px 16px;
+}
+
+.team{
+  width: 200px;
+  height: auto;
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+

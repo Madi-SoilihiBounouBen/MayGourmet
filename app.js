@@ -4,7 +4,8 @@ const express = require('express');
 const mysql2 = require('mysql2');
 
 // J'importe le pilote express-myconnection utilisé pour se connecter à la BDD
-const myConnection = require('express-myconnection')
+const myConnection = require('express-myconnection');
+const connection = require('express-myconnection');
 
 const app = express();
 
@@ -58,8 +59,22 @@ app.get('/api/accueil', (req, res) => {
 app.get('/api/equipe', (req, res) => {
     console.log("Je passe dans /api/equipe");
 
-    
-    res.render('equipe');
+    // 1. Je me connecte à la BDD grâce à la méthode getConnection()
+    req.getConnection((erreur, connection) =>{
+        if(erreur){// Je vérifie s'il y a une erreur lors de la connexion à la BDD
+            console.log(erreur);
+        } else{
+            connection.query("SELECT * FROM equipe", [], (err, resultatEquipe) => {
+                if(err) {
+                    console.log("Erreur dans la requête SQL SELECT : ");
+                } else {
+                    console.log("Mon équipe : ", resultatEquipe);
+
+                    res.render("equipe", {resultatEquipe});
+                }
+            });
+        }
+    });
 
 
 
