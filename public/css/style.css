@@ -1,45 +1,63 @@
+/* Couleur de fond générale de la page */
 body {
     background-color: blueviolet;
 }
 
+/* Style de la carte (ex : carte Pokémon) */
 .card {
-  /* Style carte Pokémon */
-  width: 300px;
-  min-height: 420px;
-  border-radius: 18px;
-  box-shadow: 0 8px 24px 0 rgba(0,0,0,0.35), 0 1.5px 0 0 #f6d23b inset;
-  background: linear-gradient(135deg, #f6d23b 0%, #e3350d 100%);
-  border: 4px solid #2a75bb;
-  margin: 24px auto;
-  padding: 18px 16px 16px 16px;
-  position: relative;
-  font-family: 'Segoe UI', 'Arial', sans-serif;
-  color: #222;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 300px; /* Largeur fixe */
+  min-height: 320px; /* Hauteur minimale */
+  border-radius: 18px; /* Bords arrondis */
+  box-shadow: 0 8px 24px 0 rgba(0,0,0,0.35), 0 1.5px 0 0 #f6d23b inset; /* Ombre externe et interne */
+  background: linear-gradient(135deg, #f6d23b 0%, #e3350d 100%); /* Dégradé de fond */
+  border: 4px solid #2a75bb; /* Bordure bleue */
+  margin: 24px auto; /* Marge verticale et centrage horizontal */
+  padding: 18px 16px 16px 16px; /* Rembourrage interne */
+  position: relative; /* Positionnement relatif */
+  font-family: 'Segoe UI', 'Arial', sans-serif; /* Police de caractères */
+  color: #222; /* Couleur du texte */
+  overflow: hidden; /* Masque le dépassement */
+  display: flex; /* Utilisation du flexbox */
+  flex-direction: column; /* Disposition verticale */
+  align-items: center; /* Centrage horizontal des éléments */
 }
 
-/* Au survol de la souris, ajouter une ombre plus profonde */
+/* Effet au survol de la carte : ombre plus profonde, changement de fond et légère rotation */
 .card:hover {
   box-shadow: 0 12px 32px 0 rgba(0,0,0,0.45), 0 2px 0 0 #f6d23b inset;
   background: linear-gradient(135deg, #f6d23b 0%, #3b4cca 100%);
   color: #222;
-  transform: scale(1.04) rotate(-1deg);
-  transition: 0.4s;
+  transform: scale(1.04) rotate(-1deg); /* Agrandissement et rotation */
+  transition: 0.7s; /* Animation douce */
 }
 
-/* Ajoutez du rembourrage à l'intérieur du conteneur de cartes */
+/* Rembourrage interne du conteneur de cartes */
 .container {
   padding: 2px 16px;
 }
 
+/* Style pour les images d'équipe */
 .team{
-  width: 200px;
-  height: auto;
-  max-width: 100%;
-  display: block;
-  margin: 0 auto;
+  width: 150px; /* Largeur fixe */
+  height: 200px; /* Hauteur fixe */
+  max-width: 100%; /* Responsive : ne dépasse pas le conteneur */
+  display: block; /* Affichage en bloc */
+  margin: 0 auto; /* Centrage horizontal */
 }
 
+/* Style pour les titres h4 */
+h4{
+  font-style: italic bold; /* Italique et gras */
+}
+
+/* Effet au survol sur les titres h4 */
+h4:hover{
+  color: #f6d23b; /* Couleur dorée */
+  transition: 0.5s; /* Animation douce */
+}
+
+/* Effet au survol sur les paragraphes */
+p:hover {
+  color: #e6bb38; /* Couleur dorée */
+  transition: 0.5s; /* Animation douce */
+}

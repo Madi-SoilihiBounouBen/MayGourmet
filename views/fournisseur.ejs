@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fournisseur</title>
+</head>
+<body>
+       <!-- Inclure le fichier navbar.ejs pour avoir la barre de navigation -->
+     <%- include('navbar') -%>
+
+     <div class="contener">
+        <form action="/api/fournisseur" method="post">
+            <label for="nomFournisseur">Nom</label>
+            <input type="text" id="nomFournisseur" name="nomFournisseur" placeholder="Nom du fournisseur ">
+
+            <label for="responsableFournisseur">Nom du responsable</label>
+            <input type="text" id="responsableFournisseur" name="responsableFournisseur" placeholder="Nom du responsable ">
+
+            <label for="emailFournisseur">Mail</label>
+            <input type="email" id="emailFournisseur" name="emailFournisseur" placeholder="Email du fournisseur ">
+
+            <label for="telephoneFournisseur">Téléphone</label>
+            <input type="text" id="telephoneFournisseur" name="telephoneFournisseur" placeholder="Numéro du fournisseur  ">
+
+            <label for="adresseFournisseur">Adresse fournisseur</label>
+            <input type="text" id="adresseFournisseur" name="adresseFournisseur" placeholder="Adresse du fournisseur  ">
+
+            <label for="datePartenariat">Date partenariat</label>
+            <input type="date" id="datePartenariat" name="datePartenariat" placeholder="Adresse du fournisseur  ">
+
+            <label for="presentationFournisseur">Présentation fournisseur</label>
+            <textarea id="presentationFournisseur" name="presentationFournisseur" placeholder="Dites nous plus sur le fournisseur  " style="height: 200px"></textarea>
+
+            <input type="submit" value="Enregistrer">
+
+
+
+
+
+        </form>
+     </div>
+</body>
+</html>

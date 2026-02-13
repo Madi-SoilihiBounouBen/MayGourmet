@@ -9,6 +9,9 @@ const connection = require('express-myconnection');
 
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 // Je configure les éléments attendus pour me connecter à la MySQL
 const optionsConnectionBaseDeDonnees = {
     host: "localhost",
@@ -81,5 +84,13 @@ app.get('/api/equipe', (req, res) => {
 
 });
 
+//J'ajoute un fournisseur dans la table fournisseur. Pour cela, j'utilise la méthode POST
+app.post('/api/fournisseur', (req, res) => {
+    console.log("Corps de la requête : ", req.body);
+});
+
+app.get('/api/fournisseur', (req, res) => {
+    res.render('fournisseur');
+})
 
 module.exports = app;
