@@ -87,6 +87,14 @@ app.get('/api/equipe', (req, res) => {
 //J'ajoute un fournisseur dans la table fournisseur. Pour cela, j'utilise la méthode POST
 app.post('/api/fournisseur', (req, res) => {
     console.log("Corps de la requête : ", req.body);
+    console.log(req.body.nomFournisseur);
+    console.log(req.body.responsableFournisseur);
+    console.log(req.body.emailFournisseur);
+    console.log("Téléphone du fournisseur : ", req.body.telephoneFournisseur);
+    console.log("Adresse fournisseur : ", req.body.adresseFournisseur);
+    console.log("Date de partenariat : ", req.body.datePartenariat);
+    console.log("Présentation du fournisseur : ", req.body.presentationFournisseur);
+    
 });
 
 app.get('/api/fournisseur', (req, res) => {
