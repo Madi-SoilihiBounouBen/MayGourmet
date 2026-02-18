@@ -87,14 +87,50 @@ app.get('/api/equipe', (req, res) => {
 //J'ajoute un fournisseur dans la table fournisseur. Pour cela, j'utilise la méthode POST
 app.post('/api/fournisseur', (req, res) => {
     console.log("Corps de la requête : ", req.body);
-    console.log(req.body.nomFournisseur);
-    console.log(req.body.responsableFournisseur);
-    console.log(req.body.emailFournisseur);
-    console.log("Téléphone du fournisseur : ", req.body.telephoneFournisseur);
-    console.log("Adresse fournisseur : ", req.body.adresseFournisseur);
-    console.log("Date de partenariat : ", req.body.datePartenariat);
-    console.log("Présentation du fournisseur : ", req.body.presentationFournisseur);
     
+    console.log(req.body.nomFournisseur);
+    const nomFournisseur = req.body.nomFournisseur;
+
+    console.log(req.body.responsableFournisseur);
+    const responsableFournisseur = req.body.responsableFournisseur
+
+    console.log(req.body.emailFournisseur);
+    const emailFournisseur = req.body.emailFournisseur;
+
+    console.log("Téléphone du fournisseur : ", req.body.telephoneFournisseur);
+    const telephoneFournisseur = req.body.telephoneFournisseur;
+
+    console.log("Adresse fournisseur : ", req.body.adresseFournisseur);
+    const adresseFournisseur = req.body.adresseFournisseur;
+
+    console.log("Date de partenariat : ", req.body.datePartenariat);
+    const datePartenariat = req.body.datePartenariat;
+
+    console.log("Présentation du fournisseur : ", req.body.presentationFournisseur);
+    const presentationFournisseur = req.body.presentationFournisseur;
+
+    const requeteSql = "INSERT INTO fournisseur (nom_fournisseur, adresse, telephone, email, date_partenariat, responsable, presentation) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    const ordreChamps = [nom_fournisseur, adresse, telephone, email, date_partenariat, responsable, presentation];
+
+    //Je me connecte à la base de données
+    req.getConnection((erreur, connection) => {
+        if(erreur) {//s'il y a une erreur
+            console.log("Erreur de connexion à la BDD : ", erreur);
+        } else{ //Si j'ai réussi à me connecter à la BDD
+            connection.query(requeteSql, ordreChamps, (err, nouveauFournisseur) => {
+                if(err) {
+                    console.log("Erreur d'ajout fournisseur : ", err);
+                } else{
+                    console.log("Bravo ! Nouveau fournisseur ajouter.");
+
+                    // Je redirige vers la page d'accueil
+                    res.status(300).redirect("/accueil");
+                }
+            });
+        }
+    });
+
 });
 
 app.get('/api/fournisseur', (req, res) => {
