@@ -84,6 +84,31 @@ app.get('/api/equipe', (req, res) => {
 
 });
 
+// API Route supprimer un membre de l'équipe
+// Methode : DELETE
+// exemple : localhost:3004/api/equipe/1
+app.delete('/api/equipe/:id', (req, res) => {
+    const idMembreEquipe = req.params.id;
+    const queryDelete = "DELETE FROM equipe WHERE id = ?";
+
+    req.getConnection((erreur, connection) => {
+        if(erreur) {
+            console.log("Erreur suppression equipe : ", erreur);
+        } else {
+            connection.query(queryDelete, [idMembreEquipe], (err, resultat) => {
+                if (err) {
+                    console.log("Erreur requete Suppression : ", err);
+                } else {
+                    console.log("Bravo ! Le membre est supprimé dans la table équipe");
+
+                    res.status(200).redirect("/api/accueil");
+                }
+            })
+        }
+    });
+});
+
+
 //J'ajoute un fournisseur dans la table fournisseur. Pour cela, j'utilise la méthode POST
 app.post('/api/fournisseur', (req, res) => {
     console.log("Corps de la requête : ", req.body);
@@ -109,9 +134,9 @@ app.post('/api/fournisseur', (req, res) => {
     console.log("Présentation du fournisseur : ", req.body.presentationFournisseur);
     const presentationFournisseur = req.body.presentationFournisseur;
 
-    const requeteSql = "INSERT INTO fournisseur (nom_fournisseur, adresse, telephone, email, date_partenariat, responsable, presentation) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    const requeteSql = "INSERT INTO fournisseur (nom_fournisseur, adresse, telephone, email, date_partenariat, responsable, presentation) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
-    const ordreChamps = [nom_fournisseur, adresse, telephone, email, date_partenariat, responsable, presentation];
+    const ordreChamps = [nomFournisseur, adresseFournisseur, telephoneFournisseur, emailFournisseur, datePartenariat, responsableFournisseur, presentationFournisseur];
 
     //Je me connecte à la base de données
     req.getConnection((erreur, connection) => {
@@ -125,7 +150,7 @@ app.post('/api/fournisseur', (req, res) => {
                     console.log("Bravo ! Nouveau fournisseur ajouter.");
 
                     // Je redirige vers la page d'accueil
-                    res.status(300).redirect("/accueil");
+                    res.status(300).redirect("/api/accueil");
                 }
             });
         }
@@ -136,5 +161,6 @@ app.post('/api/fournisseur', (req, res) => {
 app.get('/api/fournisseur', (req, res) => {
     res.render('fournisseur');
 })
+
 
 module.exports = app;

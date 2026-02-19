@@ -27,11 +27,11 @@ body {
   box-shadow: 0 12px 32px 0 rgba(0,0,0,0.45), 0 2px 0 0 #f6d23b inset;
   background: linear-gradient(135deg, #f6d23b 0%, #3b4cca 100%);
   color: #222;
-  transform: scale(1.04) rotate(-1deg); /* Agrandissement et rotation */
+  transform: scale(1.04) translate(200px) rotate(-360deg); /* Agrandissement et rotation */
   transition: 0.7s; /* Animation douce */
 }
 
-/* Rembourrage interne du conteneur de cartes */
+/* Espacement intérieur du bloc cartes */
 .container {
   padding: 2px 16px;
 }
