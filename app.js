@@ -108,6 +108,42 @@ app.delete('/api/equipe/:id', (req, res) => {
     });
 });
 
+/**
+ * API pour ajouter un membre d'équipe
+ * Le membre sera inséré dans la table equipe.
+ */
+
+app.post('/api/equipe/', (req, res) => {
+    console.log("Corps de la requête : ", req.body);
+
+    const nom = req.body.nom;
+    const prenom = req.body.prenom;
+    const mail = req.body.mail;
+    const telephone = req.body.telephone;
+    const poste = req.body.poste;
+    const adresse = req.body.adresse;
+    const presentation = req.body.presentation;
+    const dateRecrutement = req.body.dateRecrutement;
+
+    const requeteSql = "INSERT INTO equipe (nom, prenom, mail, telephone, poste, adresse, presentation, date_recrutement) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    const ordreChamps = [nom, prenom, mail, telephone, poste, adresse, presentation, dateRecrutement];
+
+    req.getConnection((erreur, connection) => {
+        if(erreur) {
+            console.log("Erreur de connexion à la BDD : ", erreur);
+        } else {
+            connection.query(requeteSql, ordreChamps, (err, nouveauMembre) => {
+                if(err) {
+                    console.log("Erreur d'ajout équipe : ", err);
+                } else {
+                    console.log("Bravo ! Nouveau membre ajouté.");
+                    res.status(300).redirect("/api/accueil");
+                }
+            });
+        }
+    });
+});
+
 
 //J'ajoute un fournisseur dans la table fournisseur. Pour cela, j'utilise la méthode POST
 app.post('/api/fournisseur', (req, res) => {
@@ -157,6 +193,8 @@ app.post('/api/fournisseur', (req, res) => {
     });
 
 });
+
+
 
 app.get('/api/fournisseur', (req, res) => {
     res.render('fournisseur');

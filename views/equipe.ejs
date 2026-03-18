@@ -5,26 +5,158 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Equipe</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/modal.css">
 </head>
 <body>
     <!-- Inclure le fichier navbar.ejs pour avoir la barre de navigation -->
      <%- include('navbar') -%>
     <h2>Mon équipe May Gourmet</h2>
     
-    <% resultatEquipe.forEach(resultat => { %>
+    <div class="cards-container">
+      <% resultatEquipe.forEach(resultat => { %>
         <div class="card">
-            <img class="team" src="/image/egor-litvinov-fPaqcD2veYo-unsplash.jpg" alt="">
+          <img class="team" id="bonbon" src="/image/egor-litvinov-fPaqcD2veYo-unsplash.jpg" alt="">
+          <div class="container">
+            <h4><b><%= resultat.nom %> <%= resultat.prenom %></b></h4>
+            <p><%= resultat.poste %></p>
+            <input type="button" value="supprimer" onclick="supprimer('<%= resultat.id %>')">
+          </div>
+        </div>
+      <%}); %>
+    </div>
+
+      <!-- Bouton pour ouvrir le modal -->
+      <button id="myBtn">Ajouter un membre</button>
+
+      <!-- Modal -->
+      <div id="myModal" class="modal">
+        <div class="modal-content">
+        <div class="modal-header">
+          <h2>Ajouter un membre</h2>
+          <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+          <p>Je suis body</p>
+          <p>Formulaire d'inscription</p>
+
             <div class="container">
-                <h4><b><%= resultat.nom %> <%= resultat.prenom %></b></h4>
-                <p><%= resultat.poste %></p>
-                <input type="button" value="supprimer" onclick="supprimer('<%= resultat.id %>')">
+                <form action="/api/equipe" method="post">
+                    <!-- Ligne 1 du formulaire-->
+                     <div class="row">
+                        <div class="col-25">
+                            <label for="nom">Nom :</label>
+                        </div>
+
+                        <div class="col-75">
+                            <input type="text" name="nom" id="nom">
+                        </div>
+                     </div>
+
+                     <!-- Ligne 2 du formulaire-->
+                     <div class="row">
+                      <div class="col-25">
+                        <label for="prenom">Prénom :</label>
+                      </div>
+                      <div class="col-75">
+                        <input type="text" name="prenom" id="prenom">
+                      </div>
+                     </div>
+
+                     <!-- Ligne 3 du formulaire-->
+                     <div class="row">
+                      <div class="col-25">
+                        <label for="mail">Mail :</label>
+                      </div>
+                      <div class="col-75">
+                        <input type="email" name="mail" id="mail">
+                      </div>
+                     </div>
+
+                     <!-- Ligne 4 du formulaire-->
+                     <div class="row">
+                      <div class="col-25">
+                        <label for="telephone">Téléphone :</label>
+                      </div>
+                      <div class="col-75">
+                        <input type="tel" name="telephone" id="telephone">
+                      </div>
+                     </div>
+
+                     <!-- Ligne 5 du formulaire-->
+                     <div class="row">
+                      <div class="col-25">
+                        <label for="poste">Poste :</label>
+                      </div>
+                      <div class="col-75">
+                        <input type="text" name="poste" id="poste">
+                      </div>
+                     </div>
+
+                     <!-- Ligne 6 du formulaire-->
+                     <div class="row">
+                      <div class="col-25">
+                        <label for="adresse">Adresse postale :</label>
+                      </div>
+                      <div class="col-75">
+                        <input type="text" name="adresse" id="adresse">
+                      </div>
+                     </div>
+
+                     <!-- Ligne 7 du formulaire-->
+                     <div class="row">
+                      <div class="col-25">
+                        <label for="presentation">Présentation :</label>
+                      </div>
+                      <div class="col-75">
+                        <textarea name="presentation" id="presentation" rows="3" style="width:100%;"></textarea>
+                      </div>
+                     </div>
+
+                     <!-- Ligne 8 du formulaire-->
+                     <div class="row">
+                      <div class="col-25">
+                        <label for="dateRecrutement">Date de recrutement :</label>
+                      </div>
+                      <div class="col-75">
+                        <input type="date" name="dateRecrutement" id="dateRecrutement">
+                      </div>
+                     </div>
+                </form>
             </div>
         </div>
-        
-    <%}); %>
+        <div class="modal-footer">
+          <button id="btnEnregistrer">Enregistrer</button>
+        </div>
+        </div>
+      </div>
 </body>
 
 <script>
+// Get the modal
+var modal = document.getElementById("myModal");
 
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
 </script>
+
 </html>
