@@ -1,6 +1,6 @@
 /* Navbar principale en rose */
 #main {
-  background: #41e7358a;
+  background: #e77035c9;
   padding: 25px;
   text-align: center;
 }
@@ -88,3 +88,12 @@ p:hover {
   color: #e6bb38; /* Couleur dorée */
   transition: 0.5s; /* Animation douce */
 }
+
+.equipe{
+  background-image: url(/image/equipe.png);
+}
+
+.fournisseur{
+  background-image: url(/image/fournisseurs.png);
+}
+

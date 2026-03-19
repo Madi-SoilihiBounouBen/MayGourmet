@@ -94,14 +94,15 @@ app.delete('/api/equipe/:id', (req, res) => {
     req.getConnection((erreur, connection) => {
         if(erreur) {
             console.log("Erreur suppression equipe : ", erreur);
+            res.status(500).json({ erreur: "Erreur de connexion à la base de données" });
         } else {
             connection.query(queryDelete, [idMembreEquipe], (err, resultat) => {
                 if (err) {
                     console.log("Erreur requete Suppression : ", err);
+                    res.status(500).json({ erreur: "Erreur lors de la suppression" });
                 } else {
                     console.log("Bravo ! Le membre est supprimé dans la table équipe");
-
-                    res.status(200).redirect("/api/accueil");
+                    res.status(200).json({ routeAccueil : "/api/accueil", message: "Membre supprimé avec succès" });
                 }
             })
         }
@@ -125,7 +126,7 @@ app.post('/api/equipe/', (req, res) => {
     const presentation = req.body.presentation;
     const dateRecrutement = req.body.dateRecrutement;
 
-    const requeteSql = "INSERT INTO equipe (nom, prenom, mail, telephone, poste, adresse, presentation, date_recrutement) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    const requeteSql = "INSERT INTO equipe (nom, prenom, mail, telephone, poste, adress_postale, presentation, date_recrutement) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     const ordreChamps = [nom, prenom, mail, telephone, poste, adresse, presentation, dateRecrutement];
 
     req.getConnection((erreur, connection) => {
