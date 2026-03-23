@@ -16,4 +16,9 @@ function supprimer(id) {
             showToast("Erreur lors de la suppression");
             console.log(erreur);
         });
+};
+
+function modifier(id) {
+        // Je détaille la manière dont je vais recevoir les données de modification d'un membre d'équipe
+        
 }

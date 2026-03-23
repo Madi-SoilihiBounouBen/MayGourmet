@@ -145,6 +145,9 @@ app.post('/api/equipe/', (req, res) => {
     });
 });
 
+app.put('/api/equipe/:id', (req, res) => {
+    // Je détaille la manière dont je vais recevoir les données de modification d'un membre d'équipe
+});
 
 //J'ajoute un fournisseur dans la table fournisseur. Pour cela, j'utilise la méthode POST
 app.post('/api/fournisseur', (req, res) => {
@@ -194,6 +197,7 @@ app.post('/api/fournisseur', (req, res) => {
     });
 
 });
+
 
 
 

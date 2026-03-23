@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/modal.css">
     <link rel="stylesheet" href="/css/toast.css">
     <script src="/js/scripte.js" defer></script>
+    <script src="/js/modal.js" defer></script>
 </head>
 <body class="equipe">
     <!-- Inclure le fichier navbar.ejs pour avoir la barre de navigation -->
@@ -23,7 +24,8 @@
               <h4><b><%= resultat.nom %> <%= resultat.prenom %></b></h4>
               <p><%= resultat.poste %></p>
               <input type="button" value="supprimer" onclick="demanderConfirmation('<%= resultat.id %>')">
-            </div>
+              <input type="button" value="Modifier" id="boutonModifierMembre" onclick="modifier('<%= resultat.id %>', '<%= resultat.nom %>', '<%= resultat.prenom %>', '<%= resultat.mail %>', '<%= resultat.telephone %>', '<%= resultat.poste %>', '<%= resultat.adress_postale %>')">
+             </div>
           </div>
         <%}); %>
       </div>
@@ -153,49 +155,6 @@
         </div>
       </div>
 </body>
-
-<script>
-// Modal ajout membre
-var modal = document.getElementById("myModal");
-var btn = document.getElementById("myBtn");
-var span = document.getElementsByClassName("close")[0];
-btn.onclick = function() { modal.style.display = "block"; }
-span.onclick = function() { modal.style.display = "none"; }
-window.onclick = function(event) {
-  if (event.target == modal) { modal.style.display = "none"; }
-  if (event.target == confirmModal) { confirmModal.style.display = "none"; }
-}
-
-// Modal confirmation suppression
-var confirmModal = document.getElementById("confirmModal");
-var confirmDeleteBtn = document.getElementById("confirmDelete");
-var cancelDeleteBtn = document.getElementById("cancelDelete");
-var idToDelete = null;
-
-function demanderConfirmation(id) {
-  idToDelete = id;
-  confirmModal.style.display = "block";
-}
-cancelDeleteBtn.onclick = function() {
-  confirmModal.style.display = "none";
-  idToDelete = null;
-}
-confirmDeleteBtn.onclick = function() {
-  if (idToDelete) {
-    supprimer(idToDelete);
-    confirmModal.style.display = "none";
-    idToDelete = null;
-  }
-}
-
-// Toast
-function showToast(message) {
-  var toast = document.getElementById("toast");
-  toast.textContent = message;
-  toast.className = "toast show";
-  setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
-}
-</script>
 
 
 
