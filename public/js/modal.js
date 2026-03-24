@@ -49,7 +49,7 @@ function showToast(message) {
 }
 
 // Fonction modifier
-function modifier(id, nom, prenom, mail, telephone, poste, adresse, presentation, dateRecrutement) {
+function modifier(id, nom, prenom, mail, telephone, poste, adresse, presentation, date_recrutement) {
   // Changer le titre du modal
   document.querySelector(".modal-header h2").textContent = "Modifier un membre";
 
@@ -61,7 +61,7 @@ function modifier(id, nom, prenom, mail, telephone, poste, adresse, presentation
   document.getElementById("poste").value = poste || "";
   document.getElementById("adresse").value = adresse || "";
   document.getElementById("presentation").value = presentation || "";
-  document.getElementById("dateRecrutement").value = dateRecrutement || "";
+  document.getElementById("dateRecrutement").value = date_recrutement || "";
 
   // Ouvrir le modal
   modal.style.display = "block";
@@ -117,7 +117,7 @@ function supprimer(id) {
     });
 }
 
-// Modal modification membre
+/* Modal modification membre
 const boutonsModifierMembre = document.querySelectorAll("#boutonModifierMembre");
 
 boutonsModifierMembre.forEach(bouton => {
@@ -136,4 +136,4 @@ boutonsModifierMembre.forEach(bouton => {
 
     modifier(id, nom, prenom, mail, telephone, poste, adresse, presentation, daterecrutement);
   });
-});
+});*/

@@ -24,7 +24,7 @@
               <h4><b><%= resultat.nom %> <%= resultat.prenom %></b></h4>
               <p><%= resultat.poste %></p>
               <input type="button" value="supprimer" onclick="demanderConfirmation('<%= resultat.id %>')">
-              <input type="button" value="Modifier" id="boutonModifierMembre" onclick="modifier('<%= resultat.id %>', '<%= resultat.nom %>', '<%= resultat.prenom %>', '<%= resultat.mail %>', '<%= resultat.telephone %>', '<%= resultat.poste %>', '<%= resultat.adress_postale %>')">
+              <input type="button" value="Modifier" id="boutonModifierMembre" onclick="modifier('<%= resultat.id %>', '<%= resultat.nom %>', '<%= resultat.prenom %>', '<%= resultat.mail %>', '<%= resultat.telephone %>', '<%= resultat.poste %>', '<%= resultat.adress_postale %>', '<%= resultat.presentation %>', '<%= resultat.date_recrutement %>' )">
              </div>
           </div>
         <%}); %>

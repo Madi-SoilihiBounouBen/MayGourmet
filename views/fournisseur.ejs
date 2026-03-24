@@ -10,7 +10,7 @@
        <!-- Inclure le fichier navbar.ejs pour avoir la barre de navigation -->
      <%- include('navbar') -%>
 
-     <div class="contener">
+     <div class="contener" id="fournisseur">
         <form action="/api/fournisseur" method="post">
             <label for="nomFournisseur">Nom</label>
             <input type="text" id="nomFournisseur" name="nomFournisseur" placeholder="Nom du fournisseur ">
