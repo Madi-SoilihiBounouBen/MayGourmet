@@ -2,18 +2,31 @@
 const modal = document.getElementById("myModal");
 const btn = document.getElementById("myBtn");
 const span = document.getElementsByClassName("close")[0];
+const form = document.querySelector("form");
+const btnEnregistrer = document.getElementById("btnEnregistrer");
+
+let isModifying = false;
+let modifyingId = null;
 
 btn.onclick = function() { 
-  document.querySelector("form").reset();
-  document.querySelector(".modal-header h2").textContent = "Ajouter un membre";
+  isModifying = false;
+  modifyingId = null;
+  form.reset();
+  document.querySelector("#myModal .modal-header h2").textContent = "Ajouter un membre";
   modal.style.display = "block"; 
 }
 
-span.onclick = function() { modal.style.display = "none"; }
+span.onclick = function() { 
+  modal.style.display = "none"; 
+}
 
 window.onclick = function(event) {
-  if (event.target == modal) { modal.style.display = "none"; }
-  if (event.target == confirmModal) { confirmModal.style.display = "none"; }
+  if (event.target == modal) { 
+    modal.style.display = "none"; 
+  }
+  if (event.target == confirmModal) { 
+    confirmModal.style.display = "none"; 
+  }
 }
 
 // Modal confirmation suppression
@@ -45,58 +58,96 @@ function showToast(message) {
   const toast = document.getElementById("toast");
   toast.textContent = message;
   toast.className = "toast show";
-  setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+  setTimeout(function(){ 
+    toast.className = toast.className.replace("show", ""); 
+  }, 3000);
 }
 
 // Fonction modifier
-function modifier(id, nom, prenom, mail, telephone, poste, adresse, presentation, date_recrutement) {
-  // Changer le titre du modal
-  document.querySelector(".modal-header h2").textContent = "Modifier un membre";
+function modifier(id) {
+  isModifying = true;
+  modifyingId = id;
+  
+  document.querySelector("#myModal .modal-header h2").textContent = "Modifier un membre";
 
-  // Pré-remplir le formulaire
-  document.getElementById("nom").value = nom || "";
-  document.getElementById("prenom").value = prenom || "";
-  document.getElementById("mail").value = mail || "";
-  document.getElementById("telephone").value = telephone || "";
-  document.getElementById("poste").value = poste || "";
-  document.getElementById("adresse").value = adresse || "";
-  document.getElementById("presentation").value = presentation || "";
-  document.getElementById("dateRecrutement").value = date_recrutement || "";
+  fetch(`/api/equipe/${id}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      const m = data.membre;
+      document.getElementById("nom").value = m.nom || "";
+      document.getElementById("prenom").value = m.prenom || "";
+      document.getElementById("mail").value = m.mail || "";
+      document.getElementById("telephone").value = m.telephone || "";
+      document.getElementById("poste").value = m.poste || "";
+      document.getElementById("adresse").value = m.adress_postale || "";
+      document.getElementById("presentation").value = m.presentation || "";
+      document.getElementById("dateRecrutement").value = m.date_recrutement || "";
+    }
+  });
 
-  // Ouvrir le modal
   modal.style.display = "block";
+}
 
-  // Gérer le submit du formulaire
-  const form = document.querySelector("form");
-  form.onsubmit = (e) => {
-    e.preventDefault();
-    
-    const data = {
-      nom: document.getElementById("nom").value,
-      prenom: document.getElementById("prenom").value,
-      mail: document.getElementById("mail").value,
-      telephone: document.getElementById("telephone").value,
-      poste: document.getElementById("poste").value,
-      adresse: document.getElementById("adresse").value,
-      presentation: document.getElementById("presentation").value,
-      dateRecrutement: document.getElementById("dateRecrutement").value
-    };
+// Gérer le submit du formulaire (ajout ou modification)
+btnEnregistrer.onclick = function(e) {
+  e.preventDefault();
+  
+  const data = {
+    nom: document.getElementById("nom").value,
+    prenom: document.getElementById("prenom").value,
+    mail: document.getElementById("mail").value,
+    telephone: document.getElementById("telephone").value,
+    poste: document.getElementById("poste").value,
+    adresse: document.getElementById("adresse").value,
+    presentation: document.getElementById("presentation").value,
+    dateRecrutement: document.getElementById("dateRecrutement").value
+  };
 
-    fetch(`/api/equipe/${id}`, {
+  if (isModifying) {
+    // Mode modification
+    fetch(`/api/equipe/${modifyingId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
     })
-    .then(res => {
-      if (res.ok) {
+    .then(res => res.json())
+    .then(reponse => {
+      if (reponse.success) {
         showToast("Modification réussie !");
+        modal.style.display = "none";
         setTimeout(() => location.reload(), 1200);
+        
+        isModifying = false;
+        modifyingId = null;
       } else {
         showToast("Erreur lors de la modification");
       }
     })
     .catch(() => showToast("Erreur lors de la modification"));
-  };
+  } else {
+    // Mode ajout
+    fetch("/api/equipe", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(reponse => {
+      if (reponse.success) {
+        showToast("Membre ajouté avec succès !");
+        modal.style.display = "none";
+        form.reset();
+        setTimeout(() => location.reload(), 1200);
+      } else {
+        showToast("Erreur lors de l'ajout");
+      }
+    })
+    .catch(() => showToast("Erreur lors de l'ajout"));
+  }
 }
 
 // Fonction supprimer
@@ -113,27 +164,19 @@ function supprimer(id) {
     })
     .catch((erreur) => {
       showToast("Erreur lors de la suppression");
-      console.log(erreur);
+      console.error(erreur);
     });
 }
 
-/* Modal modification membre
-const boutonsModifierMembre = document.querySelectorAll("#boutonModifierMembre");
-
-boutonsModifierMembre.forEach(bouton => {
-  bouton.addEventListener("click", function(e) {
-    e.preventDefault();
-    
-    const id = this.dataset.id;
-    const nom = this.dataset.nom;
-    const prenom = this.dataset.prenom;
-    const mail = this.dataset.mail;
-    const telephone = this.dataset.telephone;
-    const poste = this.dataset.poste;
-    const adresse = this.dataset.adresse;
-    const presentation = this.dataset.presentation;
-    const daterecrutement = this.dataset.daterecrutement;
-
-    modifier(id, nom, prenom, mail, telephone, poste, adresse, presentation, daterecrutement);
+// Gestion des boutons modifier
+document.addEventListener("DOMContentLoaded", function() {
+  const boutonsModifier = document.querySelectorAll(".btn-modifier");
+  
+  boutonsModifier.forEach(bouton => {
+    bouton.addEventListener("click", function(e) {
+      e.preventDefault();
+      const id = this.dataset.id;
+      modifier(id);
+    });
   });
-});*/
+});

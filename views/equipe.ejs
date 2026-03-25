@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/modal.css">
     <link rel="stylesheet" href="/css/toast.css">
-    <script src="/js/scripte.js" defer></script>
     <script src="/js/modal.js" defer></script>
 </head>
 <body class="equipe">
@@ -18,13 +17,13 @@
     <button id="myBtn">Ajouter un membre</button>
     <div class="cards-container">
       <% resultatEquipe.forEach(resultat => { %>
-          <div class="card">
+          <div class="card" data-member-id="<%= resultat.id %>">
             <img class="team" id="bonbon" src="/image/egor-litvinov-fPaqcD2veYo-unsplash.jpg" alt="">
             <div class="container">
               <h4><b><%= resultat.nom %> <%= resultat.prenom %></b></h4>
               <p><%= resultat.poste %></p>
-              <input type="button" value="supprimer" onclick="demanderConfirmation('<%= resultat.id %>')">
-              <input type="button" value="Modifier" id="boutonModifierMembre" onclick="modifier('<%= resultat.id %>', '<%= resultat.nom %>', '<%= resultat.prenom %>', '<%= resultat.mail %>', '<%= resultat.telephone %>', '<%= resultat.poste %>', '<%= resultat.adress_postale %>', '<%= resultat.presentation %>', '<%= resultat.date_recrutement %>' )">
+              <input type="button" value="Supprimer" class="btn-supprimer" onclick="demanderConfirmation('<%= resultat.id %>')">
+              <input type="button" value="Modifier" class="btn-modifier" data-id="<%= resultat.id %>">
              </div>
           </div>
         <%}); %>
@@ -49,11 +48,9 @@
     <!-- Toast notification -->
     <div id="toast" class="toast">Suppression réussie !</div>
 
-
-
-      <!-- Modal -->
-      <div id="myModal" class="modal">
-        <div class="modal-content">
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+      <div class="modal-content">
         <div class="modal-header">
           <h2>Ajouter un membre</h2>
           <span class="close">&times;</span>
@@ -62,100 +59,99 @@
           <p>Je suis body</p>
           <p>Formulaire d'inscription</p>
 
-            <div class="container">
-                <form action="/api/equipe" method="post">
-                    <!-- Ligne 1 du formulaire-->
-                     <div class="row">
-                        <div class="col-25">
-                            <label for="nom">Nom :</label>
-                        </div>
+          <div class="container">
+            <form>
+              <!-- Ligne 1 du formulaire-->
+              <div class="row">
+                <div class="col-25">
+                  <label for="nom">Nom :</label>
+                </div>
+                <div class="col-75">
+                  <input type="text" name="nom" id="nom">
+                </div>
+              </div>
 
-                        <div class="col-75">
-                            <input type="text" name="nom" id="nom">
-                        </div>
-                     </div>
+              <!-- Ligne 2 du formulaire-->
+              <div class="row">
+                <div class="col-25">
+                  <label for="prenom">Prénom :</label>
+                </div>
+                <div class="col-75">
+                  <input type="text" name="prenom" id="prenom">
+                </div>
+              </div>
 
-                     <!-- Ligne 2 du formulaire-->
-                     <div class="row">
-                      <div class="col-25">
-                        <label for="prenom">Prénom :</label>
-                      </div>
-                      <div class="col-75">
-                        <input type="text" name="prenom" id="prenom">
-                      </div>
-                     </div>
+              <!-- Ligne 3 du formulaire-->
+              <div class="row">
+                <div class="col-25">
+                  <label for="mail">Mail :</label>
+                </div>
+                <div class="col-75">
+                  <input type="email" name="mail" id="mail">
+                </div>
+              </div>
 
-                     <!-- Ligne 3 du formulaire-->
-                     <div class="row">
-                      <div class="col-25">
-                        <label for="mail">Mail :</label>
-                      </div>
-                      <div class="col-75">
-                        <input type="email" name="mail" id="mail">
-                      </div>
-                     </div>
+              <!-- Ligne 4 du formulaire-->
+              <div class="row">
+                <div class="col-25">
+                  <label for="telephone">Téléphone :</label>
+                </div>
+                <div class="col-75">
+                  <input type="tel" name="telephone" id="telephone">
+                </div>
+              </div>
 
-                     <!-- Ligne 4 du formulaire-->
-                     <div class="row">
-                      <div class="col-25">
-                        <label for="telephone">Téléphone :</label>
-                      </div>
-                      <div class="col-75">
-                        <input type="tel" name="telephone" id="telephone">
-                      </div>
-                     </div>
+              <!-- Ligne 5 du formulaire-->
+              <div class="row">
+                <div class="col-25">
+                  <label for="poste">Poste :</label>
+                </div>
+                <div class="col-75">
+                  <input type="text" name="poste" id="poste">
+                </div>
+              </div>
 
-                     <!-- Ligne 5 du formulaire-->
-                     <div class="row">
-                      <div class="col-25">
-                        <label for="poste">Poste :</label>
-                      </div>
-                      <div class="col-75">
-                        <input type="text" name="poste" id="poste">
-                      </div>
-                     </div>
+              <!-- Ligne 6 du formulaire-->
+              <div class="row">
+                <div class="col-25">
+                  <label for="adresse">Adresse postale :</label>
+                </div>
+                <div class="col-75">
+                  <input type="text" name="adresse" id="adresse">
+                </div>
+              </div>
 
-                     <!-- Ligne 6 du formulaire-->
-                     <div class="row">
-                      <div class="col-25">
-                        <label for="adresse">Adresse postale :</label>
-                      </div>
-                      <div class="col-75">
-                        <input type="text" name="adresse" id="adresse">
-                      </div>
-                     </div>
+              <!-- Ligne 7 du formulaire-->
+              <div class="row">
+                <div class="col-25">
+                  <label for="presentation">Présentation :</label>
+                </div>
+                <div class="col-75">
+                  <textarea name="presentation" id="presentation" rows="3" style="width:100%;"></textarea>
+                </div>
+              </div>
 
-                     <!-- Ligne 7 du formulaire-->
-                     <div class="row">
-                      <div class="col-25">
-                        <label for="presentation">Présentation :</label>
-                      </div>
-                      <div class="col-75">
-                        <textarea name="presentation" id="presentation" rows="3" style="width:100%;"></textarea>
-                      </div>
-                     </div>
+              <!-- Ligne 8 du formulaire-->
+              <div class="row">
+                <div class="col-25">
+                  <label for="dateRecrutement">Date de recrutement :</label>
+                </div>
+                <div class="col-75">
+                  <input type="date" name="dateRecrutement" id="dateRecrutement">
+                </div>
+              </div>
 
-                     <!-- Ligne 8 du formulaire-->
-                     <div class="row">
-                      <div class="col-25">
-                        <label for="dateRecrutement">Date de recrutement :</label>
-                      </div>
-                      <div class="col-75">
-                        <input type="date" name="dateRecrutement" id="dateRecrutement">
-                      </div>
-                     </div>
-                     <div class="row">
-                       <div class="col-75" style="text-align:right; margin-top:16px;">
-                         <button type="submit" id="btnEnregistrer">Enregistrer</button>
-                       </div>
-                     </div>
-                </form>
-            </div>
-        </div>
+              <div class="row">
+                <div class="col-75" style="text-align:right; margin-top:16px;">
+                  <button type="button" id="btnEnregistrer">Enregistrer</button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
+    </div>
+
+    
 </body>
-
-
-
 </html>

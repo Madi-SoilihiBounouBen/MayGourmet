@@ -109,3 +109,18 @@ nav a:hover {
   color: #f6d23b;
   transition: 0.9s;
 }
+
+.accueil{
+  text-align: center;
+}
+
+#titreAccueil {
+  text-align: center;
+  border: solid 4px #f6d13b85;
+  padding: 10px;
+  margin: 200px;
+  margin-left: 600px;
+  margin-right: 600px;
+  border-radius: 25px;
+  background: #3b4cca8d;
+}

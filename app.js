@@ -29,7 +29,6 @@ app.use(myConnection(mysql2, optionsConnectionBaseDeDonnees, "pool"));
 // Je précise que les vues sont dans le dossier views
 app.set('views', './views');
 
-
 //je précise qu'on utilise ejs pour les vues
 app.set('view engine', 'ejs');
 
@@ -48,15 +47,6 @@ app.get('/api/accueil', (req, res) => {
     console.log("Je passe dans /api/accueil");
 
     res.render('accueil');
-
-    //Le type d'encodage
-    //res.writeHead(200, { "content-type": "text/html;charset=utf-8"});
-
-    //Le contenu qui sera affiché côté navigateur web
-    //res.write("<p> Je suis à l'accueil</p>");
-
-    //Fin de la réponse
-    //res.end();
 });
 
 app.get('/api/equipe', (req, res) => {
@@ -78,10 +68,27 @@ app.get('/api/equipe', (req, res) => {
             });
         }
     });
+});
 
-
-
-
+// Route GET pour récupérer un membre spécifique
+app.get('/api/equipe/:id', (req, res) => {
+    const idMembreEquipe = req.params.id;
+    
+    req.getConnection((erreur, connection) => {
+        if(erreur) {
+            console.log("Erreur récupération equipe : ", erreur);
+            res.status(500).json({ success: false, erreur: "Erreur de connexion" });
+        } else {
+            connection.query("SELECT * FROM equipe WHERE id = ?", [idMembreEquipe], (err, resultat) => {
+                if (err || resultat.length === 0) {
+                    console.log("Erreur requete récupération : ", err);
+                    res.status(500).json({ success: false, erreur: "Membre non trouvé" });
+                } else {
+                    res.status(200).json({ success: true, membre: resultat[0] });
+                }
+            });
+        }
+    });
 });
 
 // API Route supprimer un membre de l'équipe
@@ -102,7 +109,7 @@ app.delete('/api/equipe/:id', (req, res) => {
                     res.status(500).json({ erreur: "Erreur lors de la suppression" });
                 } else {
                     console.log("Bravo ! Le membre est supprimé dans la table équipe");
-                    res.status(200).json({ routeAccueil : "/api/accueil", message: "Membre supprimé avec succès" });
+                    res.status(200).json({ success: true, message: "Membre supprimé avec succès" });
                 }
             })
         }
@@ -113,7 +120,6 @@ app.delete('/api/equipe/:id', (req, res) => {
  * API pour ajouter un membre d'équipe
  * Le membre sera inséré dans la table equipe.
  */
-
 app.post('/api/equipe/', (req, res) => {
     console.log("Corps de la requête : ", req.body);
 
@@ -132,24 +138,64 @@ app.post('/api/equipe/', (req, res) => {
     req.getConnection((erreur, connection) => {
         if(erreur) {
             console.log("Erreur de connexion à la BDD : ", erreur);
+            res.status(500).json({ success: false, erreur: "Erreur de connexion" });
         } else {
             connection.query(requeteSql, ordreChamps, (err, nouveauMembre) => {
                 if(err) {
                     console.log("Erreur d'ajout équipe : ", err);
+                    res.status(500).json({ success: false, erreur: "Erreur d'ajout" });
                 } else {
                     console.log("Bravo ! Nouveau membre ajouté.");
-                    res.status(300).redirect("/api/accueil");
+                    res.status(200).json({ success: true, message: "Membre ajouté avec succès" });
                 }
             });
         }
     });
 });
 
+/**
+ * API pour modifier un membre d'équipe
+ * Methode : PUT
+ * exemple : localhost:3004/api/equipe/1
+ */
 app.put('/api/equipe/:id', (req, res) => {
-    // Je détaille la manière dont je vais recevoir les données de modification d'un membre d'équipe
+    const idMembreEquipe = req.params.id;
+    
+    const nom = req.body.nom;
+    const prenom = req.body.prenom;
+    const mail = req.body.mail;
+    const telephone = req.body.telephone;
+    const poste = req.body.poste;
+    const adresse = req.body.adresse;
+    const presentation = req.body.presentation;
+    const dateRecrutement = req.body.dateRecrutement;
+
+    const queryUpdate = "UPDATE equipe SET nom = ?, prenom = ?, mail = ?, telephone = ?, poste = ?, adress_postale = ?, presentation = ?, date_recrutement = ? WHERE id = ?";
+    const ordreChamps = [nom, prenom, mail, telephone, poste, adresse, presentation, dateRecrutement, idMembreEquipe];
+
+    req.getConnection((erreur, connection) => {
+        if(erreur) {
+            console.log("Erreur modification equipe : ", erreur);
+            res.status(500).json({ erreur: "Erreur de connexion à la base de données" });
+        } else {
+            connection.query(queryUpdate, ordreChamps, (err, resultat) => {
+                if (err) {
+                    console.log("Erreur requete Modification : ", err);
+                    res.status(500).json({ erreur: "Erreur lors de la modification" });
+                } else {
+                    console.log("Bravo ! Le membre est modifié dans la table équipe");
+                    res.status(200).json({ 
+                        success: true, 
+                        message: "Membre modifié avec succès",
+                        membre: { id: idMembreEquipe, nom, prenom, mail, telephone, poste, adresse, presentation, dateRecrutement }
+                    });
+                }
+            })
+        }
+    });
 });
 
-//J'ajoute un fournisseur dans la table fournisseur. Pour cela, j'utilise la méthode POST
+// J'ajoute un fournisseur dans la table fournisseur. Pour cela, j'utilise la méthode POST
 app.post('/api/fournisseur', (req, res) => {
     console.log("Corps de la requête : ", req.body);
     
@@ -195,15 +241,115 @@ app.post('/api/fournisseur', (req, res) => {
             });
         }
     });
+});
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+app.get('/api/plat', (req, res) => {
+    req.getConnection((erreur, connection) => {
+        if (erreur) {
+            console.log("Erreur connexion BDD : ", erreur);
+            res.status(500).json({ erreur: "Erreur connexion" });
+        } else {
+            connection.query("SELECT * FROM plat", [], (err, resultats) => {
+                if (err) {
+                    console.log("Erreur SELECT plat : ", err);
+                    res.status(500).json({ erreur: "Erreur récupération" });
+                } else {
+                    res.render("plat", { resultats });
+                }
+            });
+        }
+    });
+});
+
+app.get('/api/plat/:id', (req, res) => {
+    const id = req.params.id;
+
+    req.getConnection((erreur, connection) => {
+        if (erreur) {
+            res.status(500).json({ erreur: "Erreur connexion" });
+        } else {
+            connection.query("SELECT * FROM plat WHERE id_plat = ?", [id], (err, resultat) => {
+                if (err || resultat.length === 0) {
+                    res.status(404).json({ erreur: "Plat non trouvé" });
+                } else {
+                    res.json(resultat[0]);
+                }
+            });
+        }
+    });
+});
+
+app.post('/api/plat', (req, res) => {
+    const { nom_plat, prix, categorie } = req.body;
+
+    const sql = "INSERT INTO plat (nom_plat, prix, categorie) VALUES (?, ?, ?)";
+    const valeurs = [nom_plat, prix, categorie];
+
+    req.getConnection((erreur, connection) => {
+        if (erreur) {
+            res.status(500).json({ erreur: "Erreur connexion" });
+        } else {
+            connection.query(sql, valeurs, (err, result) => {
+                if (err) {
+                    console.log(err);
+                    res.status(500).json({ erreur: "Erreur ajout" });
+                } else {
+                    res.status(200).json({ message: "Plat ajouté" });
+                }
+            });
+        }
+    });
 });
 
 
+app.put('/api/plat/:id', (req, res) => {
+    const id = req.params.id;
+    const { nom_plat, prix, categorie } = req.body;
+
+    const sql = "UPDATE plat SET nom_plat = ?, prix = ?, categorie = ? WHERE id_plat = ?";
+    const valeurs = [nom_plat, prix, categorie, id];
+
+    req.getConnection((erreur, connection) => {
+        if (erreur) {
+            res.status(500).json({ erreur: "Erreur connexion" });
+        } else {
+            connection.query(sql, valeurs, (err, result) => {
+                if (err) {
+                    res.status(500).json({ erreur: "Erreur modification" });
+                } else {
+                    res.status(200).json({ message: "Plat modifié" });
+                }
+            });
+        }
+    });
+});
+
+
+app.delete('/api/plat/:id', (req, res) => {
+    const id = req.params.id;
+
+    const sql = "DELETE FROM plat WHERE id_plat = ?";
+
+    req.getConnection((erreur, connection) => {
+        if (erreur) {
+            res.status(500).json({ erreur: "Erreur connexion" });
+        } else {
+            connection.query(sql, [id], (err, result) => {
+                if (err) {
+                    res.status(500).json({ erreur: "Erreur suppression" });
+                } else {
+                    res.status(200).json({ message: "Plat supprimé" });
+                }
+            });
+        }
+    });
+});
 
 
 app.get('/api/fournisseur', (req, res) => {
     res.render('fournisseur');
 })
-
 
 module.exports = app;

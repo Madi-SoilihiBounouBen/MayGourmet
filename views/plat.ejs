@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plats</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<%- include('navbar') -%>
+
+<h1 id="titrePlat">Liste des plats</h1>
+
+<ul>
+    <% resultats.forEach(plat => { %>
+        <li>
+            <%= plat.nom_plat %> <%= plat.prix %>€
+           
+        </li>
+    <% }) %>
+</ul>
+
+</body>
+</html>
