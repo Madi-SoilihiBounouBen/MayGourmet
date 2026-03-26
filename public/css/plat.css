@@ -1,0 +1,107 @@
+.cards-container-plat {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.cards-plat{
+    width: 48%; /* Deux cartes par ligne, avec un petit espace */
+    max-width: 50px;
+    min-width: 260px;
+    min-height: 150px; /* Hauteur minimale */
+    border-radius: 18px; /* Bords arrondis */
+    box-shadow: 0 8px 24px 0 rgba(0,0,0,0.35), 0 1.5px 0 0 #f6d23b inset; /* Ombre externe et interne */
+    background: linear-gradient(135deg, #f6d23b 0%, #e3350d 100%); /* Dégradé de fond */
+    border: 4px solid #2a75bb; /* Bordure bleue */
+    margin: 24px auto; /* Marge verticale et centrage horizontal */
+    padding: 18px 16px 16px 16px; /* Rembourrage interne */
+    position: relative; /* Positionnement relatif */
+    font-family: 'Segoe UI', 'Arial', sans-serif; /* Police de caractères */
+    color: #222; /* Couleur du texte */
+    text-align: center;
+}
+
+#titrePlat{
+    text-align: center;
+    font-size: 50px;
+    color: rgb(99, 176, 71);
+}
+
+#PouletCurryLaitCoco{
+    width: 195px;
+    height: 155px;
+    border-radius: 18px; /* Bords arrondis */
+    box-shadow: 0 8px 24px 0 rgba(0,0,0,0.35), 0 1.5px 0 0 #f6d23b inset; /* Ombre externe et interne */
+    border: 4px solid #2a75bb; /* Bordure bleue */
+}
+
+
+#myBtnPlat{
+    margin: 5px;
+    margin-left: 105px;
+    border-radius: 5px;
+    font-size: 20px;
+    background: #e0a91db3;
+}
+
+#myBtnPlat:hover {
+    font-size: 23px;
+    background: #e0a91d;
+    transition: 0.9s;
+}
+
+.texte-cache {
+    /* Positionnement absolu : il se superpose au contenu visible */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* Style du fond (semi-transparent) */
+    background-color: rgba(230, 126, 34, 0.9); /* Orange "May Gourmet" avec 90% d'opacité */
+    color: white;
+    padding: 30px;
+    box-sizing: border-box;
+    
+    /* Centrage du texte à l'intérieur */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    
+    /* --- ÉTATS INITIAL (Caché) --- */
+    opacity: 0; /* Complètement invisible */
+    
+    /* -- Optionnel : On le décale vers le bas pour une animation de montée -- */
+    transform: translateY(100%); 
+    
+    /* Transition douce pour l'apparition */
+    transition: all 0.4s ease-in-out;
+
+    border-radius: 18px; /* Bords arrondis */
+    box-shadow: 0 8px 24px 0 rgba(0,0,0,0.35), 0 1.5px 0 0 #f6d23b inset; /* Ombre externe et interne */
+    border: 4px solid #2a75bb; /* Bordure bleue */
+}
+
+.texte-cache p {
+    font-size: 1em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+
+/* Quand on survole .carte-plat, on applique ces styles à .texte-cache */
+.cards-plat:hover .texte-cache {
+    opacity: 1; /* Il devient visible */
+    transform: translateY(0); /* Il remonte à sa position d'origine */
+}
+
+/* Optionnel : On estompe un peu le contenu visible pour un meilleur contraste */
+.cards-plat:hover .contenu-visible {
+    opacity: 0.2;
+}

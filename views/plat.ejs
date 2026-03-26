@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plats</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/plat.css">
 </head>
 <body>
 
@@ -12,14 +13,43 @@
 
 <h1 id="titrePlat">Liste des plats</h1>
 
-<ul>
+<button id="myBtnPlat">Ajouter plat</button>
+
+<div class="cards-container-plat">
     <% resultats.forEach(plat => { %>
-        <li>
-            <%= plat.nom_plat %> <%= plat.prix %>€
-           
-        </li>
+
+        
+
+        <div class="cards-plat"> 
+            
+            <img src="/image/PouletCurryLaitCoco.png" id="PouletCurryLaitCoco" alt="Poulet au curry et lait de coco">
+        
+            <h4>
+                <%= plat.nom_plat %>
+            </h4>
+            <p><%= plat.prix %>€</p>
+            <p><%= plat.categorie %></p>
+
+            <div class="texte-cache">
+
+                <h2>🍛 Poulet au curry et lait de coco</h2>
+                <p>
+
+                    Un délicieux poulet mijoté dans une sauce onctueuse au lait de coco, subtilement relevée d’un mélange d’épices curry parfumées. Accompagné de riz parfumé, ce plat allie douceur et caractère pour une expérience savoureuse et exotique. Idéal pour les amateurs de cuisine généreuse et épicée.
+                </p>
+
+            </div>
+
+            
+
+        </div>
     <% }) %>
-</ul>
+    
+
+</div>
+
+    
+
 
 </body>
 </html>
