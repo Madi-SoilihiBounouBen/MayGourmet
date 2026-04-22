@@ -78,7 +78,7 @@ drop table fournisseur;
 SET FOREIGN_KET_CHECKS=1;
 
 -- 2. Créer la table fournisseur
-CREATE TABLE fournisseur IF NOT EXISTS(
+CREATE TABLE IF NOT EXISTS fournisseur (
     id_fournisseur INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     nom_fournisseur VARCHAR(100) NOT NULL,
     adresse VARCHAR(200),
