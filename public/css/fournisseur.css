@@ -1,0 +1,14 @@
+form {
+    background: rgba(200, 82, 213, 0.762);
+    padding: 25px;
+    margin: 200px;
+}
+
+#idEnregistrer{
+    align-items: center;
+    margin-left: 450px;
+}
+
+#presentationFournisseur{
+    text-align: center;
+}
